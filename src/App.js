@@ -1,25 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import useFetchData from './utils/useFetchData'
+import WeatherCard from './components/WeatherCard'
+import SearchInput from './components/SearchInput'
+
+// TODO
+// key with unique id 
+// better error handling
+// ...
 
 function App() {
+  const [weather, fetchWeather] = useFetchData();
+  console.log('data', weather, weather?.message)
+
+  function handleFetchWeather(ev, query) {
+    ev.preventDefault();
+    fetchWeather(`weather?q=${query}`)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+        <SearchInput fetchWeather={handleFetchWeather} />
       </header>
-    </div>
+
+      <div>
+        <WeatherCard weather={weather || {}} />
+      </div>
+    </>
   );
 }
 
