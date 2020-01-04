@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import useFetchData from '../utils/useFetchData';
 import FlexWrapper from './FlexWrapper';
-import ForecastList from './ForecastList'
-import StyledCard from './StyledCard'
+import ForecastList from './ForecastList';
+import StyledCard from './StyledCard';
+import ResponsiveFlexContainer from './ResponsiveFlexContainer';
+import Temp from './Temp';
 
 function WeatherCard({ weather: current }) {
   const [forecast, fetchForecast] = useFetchData();
@@ -31,12 +33,13 @@ function WeatherCard({ weather: current }) {
   }, [forecast]);
 
   return (
-    <>
-      <StyledCard temp={main.temp} style={{ marginBottom: '1.5rem' }}>
-        {message ?
-          <h2>{message}</h2>
-          :
-          <>
+    <ResponsiveFlexContainer>
+      {message ?
+        <h2>{message}</h2>
+        :
+        <div style={{ flexBasis: '50%' }}>
+          <h3 style={{ marginBottom: '.5rem' }}>now</h3>
+          <StyledCard temp={main.temp}>
             {!weather ? 'loading' :
               weather.map((el, i) => (
                 <>
@@ -46,21 +49,21 @@ function WeatherCard({ weather: current }) {
                     </div>
 
                     <div>
-                      <h2>it's {Math.round(main.temp)}°C in {name}.</h2>
-                      <p key={i}>{el.description}</p>
+                      <h2>it's <Temp num={main.temp} /> in {name}.</h2>
+                      <p key={i}>{el.description}, feels like <Temp num={main.feels_like} /> with a minimum of <Temp num={main.temp_min} /> and a maximum of <Temp num={main.temp_max} />.</p>
                     </div>
-                  </FlexWrapper >
+                  </FlexWrapper>
                 </>
               ))}
-          </>
-        }
-      </StyledCard>
+          </StyledCard>
+        </div>
+      }
 
-      <div>
-        <h3>next 5 days:</h3>
+      <div style={{ flexGrow: '1' }}>
+        <h3 style={{ marginBottom: '.5rem' }}>next 5 days</h3>
         {ForecastListWrapper}
       </div>
-    </>
+    </ResponsiveFlexContainer>
   )
 }
 

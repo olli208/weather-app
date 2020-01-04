@@ -1,17 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import StyledCard from './StyledCard';
+import Temp from './Temp'
 
 const StyledList = styled.div`
   padding: 0;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  
-  @media (min-width: 1024px) {
-    justify-content: space-between;
-		flex-direction: row;
-	}
+
 `
 
 const StyledListItem = styled(StyledCard)`
@@ -20,17 +17,6 @@ const StyledListItem = styled(StyledCard)`
   display: flex;
   margin-bottom: .5rem;
   flex-basis: 20%;
-
-
-  @media (min-width: 1024px) {
-    &:not(:last-child) {
-      margin-right: .5rem;
-    }
-	}
-
-  span {
-    font-weight: 700;
-  }
 
   img {
     height: auto;
@@ -51,7 +37,7 @@ function ForecastList({ firstDate, forecast, }) {
               <div style={{ marginRight: '.5rem' }}><img src={`http://openweathermap.org/img/wn/${item.icon}.png`} alt="weather icon" /></div>
 
               <div>
-                <span>{temp}°C</span>
+                <Temp num={temp} style={{ fontWeight: '700' }} />
                 <p>{item.description}</p>
               </div>
             </StyledListItem>
