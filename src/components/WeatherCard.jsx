@@ -43,7 +43,7 @@ function WeatherCard({ weather: current }) {
             {!weather ? 'loading' :
               weather.map((el, i) => (
                 <>
-                  <FlexWrapper style={{ flexWrap: 'nowrap', marginBottom: '2rem' }}>
+                  <FlexWrapper style={{ flexWrap: 'nowrap' }}>
                     <div style={{ marginRight: '.5rem' }}>
                       <img src={`http://openweathermap.org/img/wn/${el.icon}.png`} alt="weather icon" />
                     </div>

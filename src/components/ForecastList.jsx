@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import StyledCard from './StyledCard';
 import Temp from './Temp'
 
+const Small = styled.span`
+  font-size: .8rem;
+  display: block;
+`
+
 const StyledList = styled.div`
   padding: 0;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-
 `
 
 const StyledListItem = styled(StyledCard)`
@@ -37,6 +41,7 @@ function ForecastList({ firstDate, forecast, }) {
               <div style={{ marginRight: '.5rem' }}><img src={`http://openweathermap.org/img/wn/${item.icon}.png`} alt="weather icon" /></div>
 
               <div>
+                <Small>{date.toDateString().split(' ')[0]}</Small>
                 <Temp num={temp} style={{ fontWeight: '700' }} />
                 <p>{item.description}</p>
               </div>
