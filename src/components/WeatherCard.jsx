@@ -1,12 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
 import useFetchData from '../utils/useFetchData';
+import FlexWrapper from './FlexWrapper';
+import ForecastList from './ForecastList'
+import StyledCard from './StyledCard'
 
 function WeatherCard({ weather: current }) {
   const [forecast, fetchForecast] = useFetchData();
-  const { name, weather, message } = current;
+  const { name, weather, message, main } = current;
 
   useEffect(() => {
-    // CHECK IF THERE IS DATA
     if (!name) return
     fetchForecast(`forecast?q=${name}`)
 
@@ -15,46 +17,49 @@ function WeatherCard({ weather: current }) {
     };
   }, [name]);
 
-  console.log('forecast', forecast, name)
-
-  const ForecastList = useMemo(() => {
+  const ForecastListWrapper = useMemo(() => {
     // check first objects time (since this is the most current weather time (?))
     // Check that time for the nex 5 days
-    // return them
+
     if (forecast) {
       const firstDate = new Date(forecast.list[0].dt_txt)
-      console.log(firstDate.getTime());
 
-      return (<ul>
-        {forecast?.list.map((el, index) => {
-          var date = new Date(el.dt_txt)
-          console.log('date', date, date.getTime)
-          return firstDate.getHours() === date.getHours() && el && <li>{el.main.temp}</li>
-        })
-        }
-      </ul>
+      return (
+        <ForecastList firstDate={firstDate} forecast={forecast} />
       )
     }
   }, [forecast]);
 
   return (
     <>
-      <h2>{current && message}</h2>
-      {!!weather && !message &&
-        <>
-          <div>
-            <h1> weather in {name}:</h1>
-            {!weather ? 'loading' : weather.map((el, i) => <div key={i}>{el.description}</div>)}
-          </div>
+      <StyledCard temp={main.temp} style={{ marginBottom: '1.5rem' }}>
+        {message ?
+          <h2>{message}</h2>
+          :
+          <>
+            {!weather ? 'loading' :
+              weather.map((el, i) => (
+                <>
+                  <FlexWrapper style={{ flexWrap: 'nowrap', marginBottom: '2rem' }}>
+                    <div style={{ marginRight: '.5rem' }}>
+                      <img src={`http://openweathermap.org/img/wn/${el.icon}.png`} alt="weather icon" />
+                    </div>
 
-          <div>
-            forecast:
-            {ForecastList}
-          </div>
+                    <div>
+                      <h2>it's {Math.round(main.temp)}°C in {name}.</h2>
+                      <p key={i}>{el.description}</p>
+                    </div>
+                  </FlexWrapper >
+                </>
+              ))}
+          </>
+        }
+      </StyledCard>
 
-        </>
-      }
-
+      <div>
+        <h3>next 5 days:</h3>
+        {ForecastListWrapper}
+      </div>
     </>
   )
 }

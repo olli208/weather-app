@@ -2,6 +2,8 @@ import React from 'react';
 import useFetchData from './utils/useFetchData'
 import WeatherCard from './components/WeatherCard'
 import SearchInput from './components/SearchInput'
+import GlobalStyle from './global/GlobalStyle';
+import Section from './components/Section';
 
 // TODO
 // key with unique id 
@@ -19,13 +21,17 @@ function App() {
 
   return (
     <>
-      <header>
+      <GlobalStyle />
+      <Section as="header" isCentered>
         <SearchInput fetchWeather={handleFetchWeather} />
-      </header>
+      </Section>
 
-      <div>
-        <WeatherCard weather={weather || {}} />
-      </div>
+
+      {weather && (
+        <Section isCentered>
+          <WeatherCard weather={weather} message={weather.message} />
+        </Section>
+      )}
     </>
   );
 }
