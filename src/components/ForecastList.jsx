@@ -37,7 +37,7 @@ const StyledListItem = styled(StyledCard)`
     width: 2.5rem;
   }
 `
-
+// TODO add dates (or tommorow today three days etc...) 
 function ForecastList({ firstDate, forecast, }) {
   return (
     <StyledList>
@@ -45,10 +45,9 @@ function ForecastList({ firstDate, forecast, }) {
         var date = new Date(el.dt_txt)
         var temp = Math.round(el.main.temp)
 
-        console.log('forecasts', el)
         return firstDate.getHours() === date.getHours() && el && (
           el.weather.map((item, i) => (
-            <StyledListItem temp={temp}>
+            <StyledListItem temp={temp} key={index}>
               <div style={{ marginRight: '.5rem' }}><img src={`http://openweathermap.org/img/wn/${item.icon}.png`} alt="weather icon" /></div>
 
               <div>

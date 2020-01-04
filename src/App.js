@@ -12,7 +12,6 @@ import Section from './components/Section';
 
 function App() {
   const [weather, fetchWeather] = useFetchData();
-  console.log('data', weather, weather?.message)
 
   function handleFetchWeather(ev, query) {
     ev.preventDefault();
@@ -25,7 +24,6 @@ function App() {
       <Section as="header" isCentered>
         <SearchInput fetchWeather={handleFetchWeather} />
       </Section>
-
 
       {weather && (
         <Section isCentered>
